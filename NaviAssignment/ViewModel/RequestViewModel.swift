@@ -8,7 +8,9 @@
 import Foundation
 
 class RequestViewModel{
-    // MARK: Fetch data For closed request
+    
+    // MARK: - Fetch data For closed request
+    
     func fetchData(_ username: String, _ repoName: String, completionHandler: @escaping (DataModel, Bool, String?) -> Void){
         NetworkingManager.shared.fetchData(username, repoName){response, success, error  in
             print(response)

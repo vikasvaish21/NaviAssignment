@@ -7,10 +7,15 @@
 
 import Foundation
 import UIKit
+
 class PullRequestViewController: UIViewController{
+    
+    //MARK: - Variables
     
     let requestTableView = UITableView()
     var responseData: DataModel?
+    
+    //MARK: - Life Cycle Functions
     
     override func viewDidLoad() {
         configureTableView()
@@ -19,13 +24,14 @@ class PullRequestViewController: UIViewController{
         
     }
     
+    // MARK: - Custom Functions
+    
     func setLabel(){
         view.backgroundColor = .white
         view.addSubview(noClosedRequestLabel)
         noClosedRequestLabel.translatesAutoresizingMaskIntoConstraints = false
         noClosedRequestLabel.centerX(inView: requestTableView)
         noClosedRequestLabel.centerY(inView: requestTableView)
-        
         noClosedRequestLabel.isHidden = true
     }
     
@@ -45,6 +51,8 @@ class PullRequestViewController: UIViewController{
         requestTableView.register(RequestTableViewCell.self, forCellReuseIdentifier: RequestTableViewCell.reuseId)
     }
     
+    //MARK: - Set Labels
+    
     private var noClosedRequestLabel : UILabel = {
         let label = UILabel()
         label.text = "No Data Found"
@@ -55,6 +63,7 @@ class PullRequestViewController: UIViewController{
     
 }
 
+    //MARK: - TableView Functions
 
 extension PullRequestViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

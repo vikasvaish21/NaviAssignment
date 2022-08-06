@@ -10,11 +10,12 @@ import Alamofire
 
 class NetworkingManager {
     
-    static var shared = NetworkingManager()
+    //MARK: - Variables
     
+    static var shared = NetworkingManager()
     var dataModel: DataModel?
     
-    //MARK: Build URL
+    //MARK: - Build URL
     private func fetchURL(inputURL: String) -> String{
         let baseUrl = Constants.NetworkingConstants.baseUrl
         let endUrl = Constants.NetworkingConstants.endUrl
@@ -22,7 +23,8 @@ class NetworkingManager {
         return finalUrl
     }
     
-    //MARK:  API Request For Fetch Pull Request
+    //MARK: - API Request
+    
     func fetchData(_ username: String, _ repoName: String, completionHandler: @escaping (DataModel, Bool, String?) -> Void) {
         let inputUrl = username + "/" + repoName
         let url = fetchURL(inputURL: inputUrl)
@@ -41,7 +43,8 @@ class NetworkingManager {
         }
     }
     
-    //MARK: Fetch image Data
+    //MARK: - Fetch Image Data
+    
     func getImage(_ url: String,completionHandler: @escaping (UIImage?,String?) -> Void)  {
         let request = AF.request(url)
         request.responseData{ response in

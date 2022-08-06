@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 struct Constants {
     
     struct NetworkingConstants {

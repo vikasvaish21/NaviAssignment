@@ -9,7 +9,11 @@ import UIKit
 
 class RequestTableViewCell: UITableViewCell {
     
+    //MARK: - Variables
+    
     static var reuseId = "RequestTableViewCell"
+    
+    //MARK: - Nib
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,6 +27,8 @@ class RequestTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    //MARK: - Set Cell
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addSubview(backGround)
@@ -34,6 +40,8 @@ class RequestTableViewCell: UITableViewCell {
         setConstraints()
         
     }
+    
+    //MARK: - Custom Functions
     
     func setConstraints(){
         backGround.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, height: 120)
@@ -54,9 +62,7 @@ class RequestTableViewCell: UITableViewCell {
         let closedDate = responseData?[itemIndex].closedAt ?? ""
         closeDateLabel.text = "Closed At: \(dateFormater(dateString: "\(closedDate)", withFormat: "yyyy-MM-dd") ?? "Not Available")"
         downloadImage(responseData?[itemIndex].user.avatarURL ?? "" )
-        
-        
-    }
+     }
     
     
     func dateFormater(dateString: String, withFormat format: String) -> String? {
@@ -71,10 +77,23 @@ class RequestTableViewCell: UITableViewCell {
         return nil
     }
     
+    func downloadImage(_ profileURL: String) {
+        NetworkingManager.shared.getImage(profileURL) { image, error in
+            guard error == nil else{
+                return
+            }
+            self.profileImage.image = image
+        }
+    }
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    
+    //MARK: - Set Views, Labels & ImageView
+    
     
     let backGround : UIView = {
         let view = UIView()
@@ -126,12 +145,5 @@ class RequestTableViewCell: UITableViewCell {
         return lbl
     }()
     
-    func downloadImage(_ profileURL: String) {
-        NetworkingManager.shared.getImage(profileURL) { image, error in
-            guard error == nil else{
-                return
-            }
-            self.profileImage.image = image
-        }
-    }
+
 }

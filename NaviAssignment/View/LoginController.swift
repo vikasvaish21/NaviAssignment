@@ -7,11 +7,23 @@
 
 import UIKit
 
-
 class LoginController: UIViewController {
+    
+    //MARK: - Variables
     
     lazy var viewModel : RequestViewModel = RequestViewModel()
     var responseData : DataModel?
+    
+    
+    //MARK: - Life Cycle Functions
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureUI()
+        // Do any additional setup after loading the view.
+    }
+    
+    //MARK: - Set Labels, TextFields and Buttons
     
     private let titleLabel : UILabel = {
         let label = UILabel()
@@ -20,15 +32,7 @@ class LoginController: UIViewController {
         label.font = UIFont(name: "Avenir-Light", size: 30)
         return label
     }()
-
     
-//MARK: Life Cycle
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configureUI()
-        // Do any additional setup after loading the view.
-    }
     
     private lazy var usernameConatinerView: UIView = {
         let view = UIView().inputContainerView(image: UIImage(named: "ic_account_box_white_2x")!,textFiled: userNameTextField)
@@ -41,7 +45,6 @@ class LoginController: UIViewController {
         view.heightAnchor.constraint(equalToConstant: 50).isActive = true
         return view
     }()
-
     
     private let userNameTextField:UITextField = {
         return UITextField().textField(withPlaceHolder: "Username", isSecureTextField: false)
@@ -51,17 +54,17 @@ class LoginController: UIViewController {
         return UITextField().textField(withPlaceHolder: "Repository name", isSecureTextField: false)
     }()
     
-    // MARK: Login Button
     private let loginButton: LoginButton = {
         let loginButton = LoginButton(type: .system)
         loginButton.setTitle("Log In", for: .normal)
         loginButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-        loginButton.addTarget(self, action: #selector(loginAction), for: .touchUpInside)
+        loginButton.addTarget(LoginController.self, action: #selector(loginAction), for: .touchUpInside)
         return loginButton
     }()
     
     
-    // MARK: Helper Function to Configure UI
+    // MARK: - Custom Functions
+    
     func configureUI() {
         configureNavigationBar()
         view.backgroundColor = .backGroundColor
@@ -74,7 +77,7 @@ class LoginController: UIViewController {
         stack.spacing = 16
         view.addSubview(stack)
         stack.anchor(top: titleLabel.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 80, paddingLeft: 16, paddingRight: 16)
-
+        
     }
     
     func handleShowLogin() {
@@ -83,25 +86,11 @@ class LoginController: UIViewController {
         navigationController?.pushViewController(controller, animated: true)
     }
     
-    
-    @objc func loginAction() {
-        if userNameTextField.text == ""{
-            showAlert(withTitle: "", withMessage: "Please Enter Username")
-        }else if repoNameTextField.text == ""{
-            showAlert(withTitle: "", withMessage: "Please Enter Repository Name")
-        }else{
-        loginRequest()
-        }
-    }
-
-    //MARK: configure navigation bar
     func configureNavigationBar(){
         navigationController?.navigationBar.isHidden = true
         navigationController?.navigationBar.barStyle = .black
         
     }
-    
-    // MARK: Show AlertView
     
     func showAlert(withTitle title: String, withMessage message:String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -113,16 +102,28 @@ class LoginController: UIViewController {
         })
     }
     
+    // MARK: - Objc Functions
+    
+    @objc func loginAction() {
+        if userNameTextField.text == ""{
+            showAlert(withTitle: "", withMessage: "Please Enter Username")
+        }else if repoNameTextField.text == ""{
+            showAlert(withTitle: "", withMessage: "Please Enter Repository Name")
+        }else{
+            loginRequest()
+        }
+    }
+    
 }
 
 
-//MARK: - Api Hit
+    //MARK: - Api Hit
 
 extension LoginController{
     
     func loginRequest(){
-            viewModel.fetchData(userNameTextField.text ?? "",  repoNameTextField.text ?? "") { response, success, error in
-               print(response)
+        viewModel.fetchData(userNameTextField.text ?? "",  repoNameTextField.text ?? "") { response, success, error in
+            print(response)
             if success == true{
                 self.responseData = response
                 DispatchQueue.main.async {

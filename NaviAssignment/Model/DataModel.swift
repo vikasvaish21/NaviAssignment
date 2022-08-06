@@ -7,9 +7,8 @@
 
 import Foundation
 
-typealias DataModel = [DataModelElement]
-
 // MARK: - DataModelElement
+
 struct DataModelElement: Codable {
     let state: String
     let title: String
@@ -27,6 +26,7 @@ struct DataModelElement: Codable {
 }
 
 // MARK: - User
+
 struct User: Codable {
     let login: String
     let avatarURL: String
@@ -37,3 +37,5 @@ struct User: Codable {
         
     }
 }
+
+typealias DataModel = [DataModelElement]
