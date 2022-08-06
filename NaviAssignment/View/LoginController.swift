@@ -58,7 +58,7 @@ class LoginController: UIViewController {
         let loginButton = LoginButton(type: .system)
         loginButton.setTitle("Log In", for: .normal)
         loginButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-        loginButton.addTarget(LoginController.self, action: #selector(loginAction), for: .touchUpInside)
+        loginButton.addTarget(self, action: #selector(loginAction), for: .touchUpInside)
         return loginButton
     }()
     
