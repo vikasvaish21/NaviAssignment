@@ -14,9 +14,20 @@ class PullRequestViewController: UIViewController{
     
     override func viewDidLoad() {
         configureTableView()
+        setLabel()
         navigationController?.navigationBar.isHidden = false
+        
     }
     
+    func setLabel(){
+        view.backgroundColor = .white
+        view.addSubview(noClosedRequestLabel)
+        noClosedRequestLabel.translatesAutoresizingMaskIntoConstraints = false
+        noClosedRequestLabel.centerX(inView: requestTableView)
+        noClosedRequestLabel.centerY(inView: requestTableView)
+        
+        noClosedRequestLabel.isHidden = true
+    }
     
     func configureTableView() {
         view.addSubview(requestTableView)
@@ -26,6 +37,7 @@ class PullRequestViewController: UIViewController{
         requestTableView.backgroundColor = .systemGray6
         requestTableView.dataSource = self
         requestTableView.delegate = self
+        requestTableView.isHidden = false
         
     }
     
@@ -33,11 +45,26 @@ class PullRequestViewController: UIViewController{
         requestTableView.register(RequestTableViewCell.self, forCellReuseIdentifier: RequestTableViewCell.reuseId)
     }
     
+    private var noClosedRequestLabel : UILabel = {
+        let label = UILabel()
+        label.text = "No Data Found"
+        label.font = UIFont(name: "Avenir-Light", size: 30)
+        label.textColor = UIColor.black
+        return label
+    }()
+    
 }
 
 
 extension PullRequestViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if responseData?.count ?? 0 > 0{
+            tableView.isHidden = false
+            noClosedRequestLabel.isHidden = true
+        }else{
+            tableView.isHidden = true
+            noClosedRequestLabel.isHidden = false
+        }
         return responseData?.count ?? 0
     }
     

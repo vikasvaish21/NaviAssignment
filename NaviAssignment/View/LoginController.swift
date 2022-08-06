@@ -130,6 +130,7 @@ extension LoginController{
                 }
             }else{
                 print(error ?? "")
+                self.showAlert(withTitle: "", withMessage: "Please check your Username or Reponame")
             }
         }
     }
